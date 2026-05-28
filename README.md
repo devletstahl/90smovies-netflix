@@ -1,103 +1,144 @@
-# Investigando Filmes dos Anos 1990 🎬
+# Investigating 1990s Movies 🎬
 
-🇺🇸 **Check out the English version here:** [README.en-us.md](https://github.com/devleticiastahl/90smovies-netflix/blob/main/README.en-us.md)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?style=flat-square&logo=python&logoColor=white)
+![Pandas](https://img.shields.io/badge/Pandas-150458?style=flat-square&logo=pandas&logoColor=white)
+![NumPy](https://img.shields.io/badge/NumPy-013243?style=flat-square&logo=numpy&logoColor=white)
+![Matplotlib](https://img.shields.io/badge/Matplotlib-11557c?style=flat-square)
+![Seaborn](https://img.shields.io/badge/Seaborn-4c72b0?style=flat-square)
 
-## Sobre o projeto
+---
 
-Este projeto analisa os dados de filmes dos anos 1990 da Netflix para descobrir tendências de entretenimento, gêneros populares e insights chave dessa década influente no cinema. Baseada no conjunto de dados `netflix_data.csv`, a análise oferece recomendações para empresas de produção que buscam criar filmes nostálgicos.
+This is a personal project, built as a playground for practicing data exploration and visualization techniques. The goal was never just to answer questions about 90s movies — it was to use a fun dataset as an excuse to experiment with chart choices, visual storytelling, and how different tools handle the same data differently.
 
-### 🛠️ Ferramentas
-- Jupyter notebook
-- Python
-- Pandas
-- NumPy
-- Matplotlib
-- Seaborn
-- Figma
+The dataset is `netflix_data.csv`, filtered to movies released between 1990 and 1999. The questions came from the data. The real exercise was deciding how to show the answers.
 
-## Análise
+---
 
-### 1. Número de Filmes Lançados
-Os lançamentos de filmes de 1990 a 1999 mostraram uma tendência constante de aumento, com um crescimento significativo entre 1996 e 1997.
+## ✦ The Dataset
 
-<img src="https://drive.google.com/uc?id=1EWzXvVPdFjWufq8jqnpQPFD1q6eVB-vu" alt="Número de Filmes Lançados por País- TOP3" width="700" style=""/>
+The dataset contains Netflix movie records with the following columns used in this analysis:
 
-Esse aumento pode ser devido a diversos fatores, como avanços na tecnologia cinematográfica, mudanças nas preferências do público ou maior capacidade de produção. A análise das contribuições de diferentes países mostra os **EUA** como o principal player, enquanto a **Índia** demonstrou um crescimento significativo na produção.
+| Column | Description |
+|--------|-------------|
+| `title` | Movie title |
+| `type` | Content type (filtered to "Movie") |
+| `release_year` | Year of release |
+| `country` | Country of production |
+| `listed_in` | Genres |
+| `director` | Director name |
+| `duration` | Runtime in minutes |
+| `description` | Movie description |
 
-<img src="https://drive.google.com/uc?id=10IA4NEvoIglqVAEkA5NyR9SwbeTuMHsk" alt="Número de Filmes Lançados por País- TOP3" width="700" style=""/>
+<br/>
 
-- **EUA**: Líder em lançamentos de filmes com um pico em 1997.
-- **Índia**: Crescimento consistente no final dos anos 1990, refletindo o surgimento de Bollywood.
-- **Reino Unido**: Aumento notável, mas com produção menor em comparação aos EUA e Índia.
+## ✦ 1. Release Trends Over the Decade
 
-### 2. Gêneros Populares dos Anos 90
-Os gêneros mais populares dos anos 1990 foram **Ação**, **Drama** e **Comédia**, refletindo a demanda do público por aventuras emocionantes, narrativas emocionais e humor. **Filmes Infantis** e **Clássicos** também foram populares, atraindo famílias e aqueles em busca de entretenimento atemporal.
+The first question was simple: how many movies were released each year? A **line chart** was the natural choice here — we're looking at a continuous trend over time, and lines make it easy to spot direction and inflection points.
 
-<img src="https://drive.google.com/uc?id=1GYsQgOASpCcFst8gBjuggTiqwz7x64Lb" alt="Gêneros Populares dos Anos 90" width="700" style=""/>
+```python
+movies_per_year = movies_90s.groupby('release_year').size()
 
-Analisando os três principais países produtores de filmes, observamos que na **Índia**, os **Dramas** são os mais populares. Nos **EUA** e **Reino Unido**, a diversidade de gêneros é mais ampla, com destaque para Ação, Comédia e Drama.
+plt.figure(figsize=(10, 5))
+sns.lineplot(data=movies_per_year, marker='o')
+plt.title('Number of Movies Released (1990–1999)')
+plt.xlabel('Year')
+plt.ylabel('Number of Movies')
+plt.show()
+```
 
-<img src="https://drive.google.com/uc?id=11pBDKWGHDMLV3RPl_nMMOxeoBZVYbgYX" alt="Gêneros Populares dos Anos 90 por País" width="700" style=""/>
+Releases showed a steady upward trend, with a noticeable jump between 1996 and 1997. That could reflect technology shifts, broader streaming cataloging, or simply more content being produced globally in that period.
 
-### 3. Diretores dos Anos 90
-A maioria dos diretores nos anos 90 lançou entre 1 e 4 filmes, com uma média de **1,24 filmes por diretor**. Não houve grandes figuras dominantes da década.
+<img src="https://drive.google.com/uc?id=1EWzXvVPdFjWufq8jqnpQPFD1q6eVB-vu" alt="Number of Movies Released" width="700" />
 
-#### Top 10 Diretores por Número de Filmes Lançados
+Breaking it down by country revealed something more interesting. A simple line chart per country would get cluttered fast, so the choice was to filter to the **top 3 producers** and compare them side by side. This keeps the chart readable while still showing regional differences.
+
+<img src="https://drive.google.com/uc?id=10IA4NEvoIglqVAEkA5NyR9SwbeTuMHsk" alt="Movies Released by Country - Top 3" width="700" />
+
+The US led consistently, peaking in 1997. India showed steady growth toward the end of the decade — Bollywood's rise was already happening. The UK contributed meaningfully but at a smaller scale.
+
+<br/>
+
+## ✦ 2. Popular Genres
+
+For genres, a **bar chart** made more sense than a pie chart. Pie charts struggle with more than 4 or 5 categories, and here we had more than that. Bars make it easy to compare values across many categories at once.
+
+<img src="https://drive.google.com/uc?id=1GYsQgOASpCcFst8gBjuggTiqwz7x64Lb" alt="Popular Genres of the 90s" width="700" />
+
+Action, Drama, and Comedy dominated, not surprising for the 90s. What was interesting was how genre distribution shifted by country. Breaking the same bar chart down by the top 3 producing countries revealed that India leaned heavily into Drama, while the US and UK showed a broader spread across genres.
+
+This is a good example of why aggregated charts can hide patterns: the overall ranking looked one way, but the country-level view told a different story.
+
+<img src="https://drive.google.com/uc?id=11pBDKWGHDMLV3RPl_nMMOxeoBZVYbgYX" alt="Popular Genres by Country" width="700" />
+
+<br/>
+
+## ✦ 3. Directors
+
+Most directors in the dataset released between 1 and 4 movies in the 90s, with an average of 1.24 films per director. No single figure dominated the decade in terms of volume.
 
 ```python
 top_directors = movies_90s['director'].value_counts().head(10)
 top_directors
 ```
 
-| **Diretor**            | **Número de Filmes** |
-| ---------------------- | -------------------- |
-| Johnnie To             | 4                    |
-| Youssef Chahine        | 3                    |
-| Umesh Mehra            | 3                    |
-| Gregory Hoblit         | 3                    |
-| Subhash Ghai           | 3                    |
-| Mahesh Bhatt           | 3                    |
-| Rajkumar Santoshi      | 3                    |
-| Sooraj R. Barjatya     | 3                    |
-| David Dhawan           | 2                    |
-| Quentin Tarantino      | 2                    |
+| Director | Number of Films |
+|----------|----------------|
+| Johnnie To | 4 |
+| Youssef Chahine | 3 |
+| Umesh Mehra | 3 |
+| Gregory Hoblit | 3 |
+| Subhash Ghai | 3 |
+| Mahesh Bhatt | 3 |
+| Rajkumar Santoshi | 3 |
+| Sooraj R. Barjatya | 3 |
+| David Dhawan | 2 |
+| Quentin Tarantino | 2 |
 
-## 4. Temas Principais
+A simple ranked table worked better here than a chart. The values are close enough that a bar chart would not add much visual clarity, and the names themselves carry context that a chart would lose.
 
-A década de 1990 trouxe uma rica variedade de temas, como **"Love"**, **"beauty"**, **"romance"**, e temas de **"danger"**, **"mystery"**, **"fear"**, refletindo uma grande diversidade de interesses cinematográficos.
+<br/>
 
-<img src="https://drive.google.com/uc?id=1LTq4Rn1jJ6M3g0ngtFfq5zwJRQ6xGBHt" alt="Word Cloud Título dos Filmes" width="700" style=""/>
+## ✦ 4. Themes in Titles and Descriptions
 
-Os temas de **família** e **amadurecimento**, além dos **filmes de ação** e **aventura**, dominaram o cinema dos anos 90, com forte apelo emocional e envolvimento com o público.
+To explore recurring themes, I used **word clouds**: one for movie titles, one for descriptions. Word clouds are often criticized for being imprecise, and that criticism is fair. But for this specific use case, the goal was not to rank themes precisely: it was to get a quick visual sense of what language dominated the decade. For that, a word cloud works well.
 
-<img src="https://drive.google.com/uc?id=1BSXOuAfq55FLY7eA0IFGJCq76x9Ymmn2" alt="Word Cloud Descrição dos Filmes" width="700" style=""/>
+<img src="https://drive.google.com/uc?id=1LTq4Rn1jJ6M3g0ngtFfq5zwJRQ6xGBHt" alt="Word Cloud - Movie Titles" width="700" />
 
-## 5. Duração dos Filmes
+Titles leaned toward words like "love", "beauty", and "romance", alongside "danger", "mystery", and "fear" — a clear reflection of the emotional range of 90s cinema.
 
-A duração típica dos filmes variava de **100 a 120 minutos**, com uma média de **115 minutos**.
+Descriptions reinforced family and coming-of-age themes, with action and adventure also featuring strongly.
 
-<img src="https://drive.google.com/uc?id=1_xTM9gr2Shi_0sNxHO5ZCLm7btNGQ1cV" alt="Distribuição da Duração dos Filmes" width="700" style=""/>
+<br/>
 
-Os **filmes de ação** e **dramas** tendem a ser mais longos, enquanto **comédias** e **filmes familiares** são mais curtos.
+## ✦ 5. Runtime Distribution
 
-<img src="https://drive.google.com/uc?id=1Gm2XxTHsRqIBM22Jl1jT7Nyv79T3SMp3" alt="Análise da Duração dos Filmes" width="700" style=""/>
+For runtime, I used a **histogram** to show the distribution. When the question is "what does the spread look like?", histograms are the right tool. They show shape, concentration, and outliers better than a simple average or a box plot would in a first pass.
 
-## Conclusão
+<img src="https://drive.google.com/uc?id=1_xTM9gr2Shi_0sNxHO5ZCLm7btNGQ1cV" alt="Runtime Distribution" width="700" />
 
-### Principais Recomendações para Criar Filmes Nostálgicos dos Anos 90
+Most films landed between 100 and 120 minutes, with an average of 115 minutes. Then I broke runtime down by genre using a **box plot**. The right choice when comparing distributions across multiple categories, since it shows median, spread, and outliers all at once.
 
-- **Gêneros Dominantes**: Foque em **Ação**, **Drama** e **Comédia** para evocar a essência cinematográfica dos anos 90.
-- **Temas Universais**: Incorpore temas como **Romance**, **Família**, **Perigo** e **Aventura**, que foram populares na década.
-- **Diretores e Estilo**: Inspire-se em diretores como **Quentin Tarantino** e **Johnnie To** para técnicas de narrativa.
-- **Duração dos Filmes**: Mantenha a duração entre **100-120 minutos** para capturar o ritmo dos filmes da época.
-- **Influências Regionais**: Combine elementos do estilo de Hollywood com o drama emocional de Bollywood.
-- **Personagens Atemporais**: Crie **heróis ousados** e **figuras relacionáveis** para fortalecer o apelo emocional.
-- **Nostalgia e Técnica Moderna**: Misture a estética dos anos 90 com narrativas contemporâneas para atrair o público atual.
+<img src="https://drive.google.com/uc?id=1Gm2XxTHsRqIBM22Jl1jT7Nyv79T3SMp3" alt="Runtime by Genre" width="700" />
 
-## Contribuições
+Action and Drama films tended to run longer. Comedies and family films were consistently shorter, which makes intuitive sense and is also useful context for anyone thinking about content pacing.
 
-☕ **Contribuições são bem-vindas!**
+<br/>
 
+## ✦ Key Takeaways
 
+This project was less about the 90s and more about practicing intentional visualization choices:
 
+- **Line charts** for trends over time
+- **Bar charts** for comparing categories, especially when there are many
+- **Word clouds** for a quick thematic overview, not precise ranking
+- **Histograms** for understanding distributions
+- **Box plots** for comparing distributions across groups
+- **Tables** when values are close and labels matter more than visual shape
 
+The dataset was simple enough to focus on the how, not just the what, which was exactly the point.
+
+<br/>
+
+---
+
+<sub>☕︎ Made by <a href="https://github.com/devleticiastahl">Leticia Stahl</a></sub>
