@@ -8,7 +8,7 @@
 
 ---
 
-This is a personal project, built as a playground for practicing data exploration and visualization techniques. The goal was never just to answer questions about 90s movies — it was to use a fun dataset as an excuse to experiment with chart choices, visual storytelling, and how different tools handle the same data differently.
+This is a personal project, built as a playground for practicing data exploration and visualization techniques. The goal was never just to answer questions about 90s movies, but it was also to use a fun dataset as an excuse to experiment with chart choices, visual storytelling, and how different tools handle the same data differently.
 
 The dataset is `netflix_data.csv`, filtered to movies released between 1990 and 1999. The questions came from the data. The real exercise was deciding how to show the answers.
 
