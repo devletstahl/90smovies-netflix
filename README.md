@@ -14,7 +14,7 @@ The dataset is `netflix_data.csv`, filtered to movies released between 1990 and 
 
 ---
 
-## ✦ The Dataset
+## The Dataset
 
 The dataset contains Netflix movie records with the following columns used in this analysis:
 
@@ -31,7 +31,7 @@ The dataset contains Netflix movie records with the following columns used in th
 
 <br/>
 
-## ✦ 1. Release Trends Over the Decade
+## 1. Release Trends Over the Decade
 
 The first question was simple: how many movies were released each year? A **line chart** was the natural choice here — we're looking at a continuous trend over time, and lines make it easy to spot direction and inflection points.
 
@@ -58,7 +58,7 @@ The US led consistently, peaking in 1997. India showed steady growth toward the 
 
 <br/>
 
-## ✦ 2. Popular Genres
+## 2. Popular Genres
 
 For genres, a **bar chart** made more sense than a pie chart. Pie charts struggle with more than 4 or 5 categories, and here we had more than that. Bars make it easy to compare values across many categories at once.
 
@@ -72,7 +72,7 @@ This is a good example of why aggregated charts can hide patterns: the overall r
 
 <br/>
 
-## ✦ 3. Directors
+## 3. Directors
 
 Most directors in the dataset released between 1 and 4 movies in the 90s, with an average of 1.24 films per director. No single figure dominated the decade in terms of volume.
 
@@ -98,7 +98,7 @@ A simple ranked table worked better here than a chart. The values are close enou
 
 <br/>
 
-## ✦ 4. Themes in Titles and Descriptions
+## 4. Themes in Titles and Descriptions
 
 To explore recurring themes, I used **word clouds**: one for movie titles, one for descriptions. Word clouds are often criticized for being imprecise, and that criticism is fair. But for this specific use case, the goal was not to rank themes precisely: it was to get a quick visual sense of what language dominated the decade. For that, a word cloud works well.
 
@@ -110,7 +110,7 @@ Descriptions reinforced family and coming-of-age themes, with action and adventu
 
 <br/>
 
-## ✦ 5. Runtime Distribution
+## 5. Runtime Distribution
 
 For runtime, I used a **histogram** to show the distribution. When the question is "what does the spread look like?", histograms are the right tool. They show shape, concentration, and outliers better than a simple average or a box plot would in a first pass.
 
@@ -124,7 +124,7 @@ Action and Drama films tended to run longer. Comedies and family films were cons
 
 <br/>
 
-## ✦ Key Takeaways
+## Key Takeaways
 
 This project was less about the 90s and more about practicing intentional visualization choices:
 
