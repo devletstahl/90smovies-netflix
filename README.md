@@ -8,13 +8,13 @@
 
 ---
 
-This is a personal project, built as a playground for practicing data exploration and visualization techniques. The goal was never just to answer questions about 90s movies, but it was also to use a fun dataset as an excuse to experiment with chart choices, visual storytelling, and how different tools handle the same data differently.
-
-The dataset is `netflix_data.csv`, filtered to movies released between 1990 and 1999. The questions came from the data. The real exercise was deciding how to show the answers.
+A playground project for practicing data exploration and visualization technique. The dataset, 90s Netflix movies, is really just an excuse: the actual exercise was deciding how to show an answer, not just finding it. Line vs. bar, histogram vs. box plot, table vs. word cloud, and why each one fits the question being asked.
 
 ---
 
 ## The Dataset
+
+The dataset is `netflix_data.csv`, filtered to movies released between 1990 and 1999.
 
 The dataset contains Netflix movie records with the following columns used in this analysis:
 
@@ -33,7 +33,7 @@ The dataset contains Netflix movie records with the following columns used in th
 
 ## 1. Release Trends Over the Decade
 
-The first question was simple: how many movies were released each year? A **line chart** was the natural choice here — we're looking at a continuous trend over time, and lines make it easy to spot direction and inflection points.
+The first question was simple: how many movies were released each year? A **line chart** was the natural choice here, we're looking at a continuous trend over time, and lines make it easy to spot direction and inflection points.
 
 ```python
 movies_per_year = movies_90s.groupby('release_year').size()
@@ -50,23 +50,23 @@ Releases showed a steady upward trend, with a noticeable jump between 1996 and 1
 
 <img src="https://drive.google.com/uc?id=1EWzXvVPdFjWufq8jqnpQPFD1q6eVB-vu" alt="Number of Movies Released" width="700" />
 
-Breaking it down by country revealed something more interesting. A simple line chart per country would get cluttered fast, so the choice was to filter to the **top 3 producers** and compare them side by side. This keeps the chart readable while still showing regional differences.
+Breaking it down by country revealed something more interesting. A line per country would get cluttered fast, so the choice was to filter to the **top 3 producers** and compare them side by side: keeps the chart readable while still showing regional differences.
 
 <img src="https://drive.google.com/uc?id=10IA4NEvoIglqVAEkA5NyR9SwbeTuMHsk" alt="Movies Released by Country - Top 3" width="700" />
 
-The US led consistently, peaking in 1997. India showed steady growth toward the end of the decade — Bollywood's rise was already happening. The UK contributed meaningfully but at a smaller scale.
+The US led consistently, peaking in 1997. India showed steady growth toward the end of the decade, Bollywood's rise was already happening. The UK contributed meaningfully but at a smaller scale.
 
 <br/>
 
 ## 2. Popular Genres
 
-For genres, a **bar chart** made more sense than a pie chart. Pie charts struggle with more than 4 or 5 categories, and here we had more than that. Bars make it easy to compare values across many categories at once.
+For genres, a **bar chart** made more sense than a pie chart. Pie charts struggle past 4 or 5 categories, and here we had more than that; bars make it easy to compare values across many categories at once.
 
 <img src="https://drive.google.com/uc?id=1GYsQgOASpCcFst8gBjuggTiqwz7x64Lb" alt="Popular Genres of the 90s" width="700" />
 
-Action, Drama, and Comedy dominated, not surprising for the 90s. What was interesting was how genre distribution shifted by country. Breaking the same bar chart down by the top 3 producing countries revealed that India leaned heavily into Drama, while the US and UK showed a broader spread across genres.
+Action, Drama, and Comedy dominated, not surprising for the 90s. What was interesting was how genre distribution shifted by country: breaking the same bar chart down by the top 3 producing countries revealed that India leaned heavily into Drama, while the US and UK showed a broader spread.
 
-This is a good example of why aggregated charts can hide patterns: the overall ranking looked one way, but the country-level view told a different story.
+This is a good example of why aggregated charts can hide patterns: the overall ranking looked one way, the country-level view told a different story.
 
 <img src="https://drive.google.com/uc?id=11pBDKWGHDMLV3RPl_nMMOxeoBZVYbgYX" alt="Popular Genres by Country" width="700" />
 
@@ -94,17 +94,17 @@ top_directors
 | David Dhawan | 2 |
 | Quentin Tarantino | 2 |
 
-A simple ranked table worked better here than a chart. The values are close enough that a bar chart would not add much visual clarity, and the names themselves carry context that a chart would lose.
+A ranked table worked better here than a chart. The values are close enough that a bar chart wouldn't add much visual clarity, and the names themselves carry context a chart would lose.
 
 <br/>
 
 ## 4. Themes in Titles and Descriptions
 
-To explore recurring themes, I used **word clouds**: one for movie titles, one for descriptions. Word clouds are often criticized for being imprecise, and that criticism is fair. But for this specific use case, the goal was not to rank themes precisely: it was to get a quick visual sense of what language dominated the decade. For that, a word cloud works well.
+To explore recurring themes, I used **word clouds**: one for movie titles, one for descriptions. Word clouds get criticized for being imprecise, fair criticism, but the goal here wasn't to rank themes precisely, it was to get a quick visual sense of what language dominated the decade. For that, a word cloud works well.
 
 <img src="https://drive.google.com/uc?id=1LTq4Rn1jJ6M3g0ngtFfq5zwJRQ6xGBHt" alt="Word Cloud - Movie Titles" width="700" />
 
-Titles leaned toward words like "love", "beauty", and "romance", alongside "danger", "mystery", and "fear" — a clear reflection of the emotional range of 90s cinema.
+Titles leaned toward words like "love", "beauty", and "romance", alongside "danger", "mystery", and "fear": a clear reflection of the emotional range of 90s cinema.
 
 Descriptions reinforced family and coming-of-age themes, with action and adventure also featuring strongly.
 
@@ -112,15 +112,15 @@ Descriptions reinforced family and coming-of-age themes, with action and adventu
 
 ## 5. Runtime Distribution
 
-For runtime, I used a **histogram** to show the distribution. When the question is "what does the spread look like?", histograms are the right tool. They show shape, concentration, and outliers better than a simple average or a box plot would in a first pass.
+For runtime, I used a **histogram** to show the distribution. When the question is "what does the spread look like?", histograms are the right tool: they show shape, concentration, and outliers better than an average or a box plot would in a first pass.
 
 <img src="https://drive.google.com/uc?id=1_xTM9gr2Shi_0sNxHO5ZCLm7btNGQ1cV" alt="Runtime Distribution" width="700" />
 
-Most films landed between 100 and 120 minutes, with an average of 115 minutes. Then I broke runtime down by genre using a **box plot**. The right choice when comparing distributions across multiple categories, since it shows median, spread, and outliers all at once.
+Most films landed between 100 and 120 minutes, with an average of 115 minutes. Then I broke runtime down by genre using a **box plot**, the right choice when comparing distributions across multiple categories, since it shows median, spread, and outliers all at once.
 
 <img src="https://drive.google.com/uc?id=1Gm2XxTHsRqIBM22Jl1jT7Nyv79T3SMp3" alt="Runtime by Genre" width="700" />
 
-Action and Drama films tended to run longer. Comedies and family films were consistently shorter, which makes intuitive sense and is also useful context for anyone thinking about content pacing.
+Action and Drama films tended to run longer. Comedies and family films were consistently shorter: makes intuitive sense, and useful context for anyone thinking about content pacing.
 
 <br/>
 
@@ -135,10 +135,12 @@ This project was less about the 90s and more about practicing intentional visual
 - **Box plots** for comparing distributions across groups
 - **Tables** when values are close and labels matter more than visual shape
 
-The dataset was simple enough to focus on the how, not just the what, which was exactly the point.
+The dataset was simple enough to focus on the how, not just the what.
 
 <br/>
 
 ---
 
 <sub>☕︎ Made by <a href="https://github.com/devleticiastahl">Leticia Stahl</a></sub>
+
+---
